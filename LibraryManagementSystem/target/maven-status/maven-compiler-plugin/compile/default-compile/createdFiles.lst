@@ -1,0 +1,3 @@
+com\packt\lms\config\DispatcherServletInitializer.class
+com\packt\lms\config\WebApplicationContextConfig.class
+com\packt\lms\controller\HomeController.class
