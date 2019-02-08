@@ -1,5 +1,7 @@
 package com.packt.lms.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,6 +24,12 @@ public class BookServiceImpl implements BookService {
 	public void saveBooks(BookDetails bookDetails) {
 
 		bookDAO.saveBooks(bookDetails);	
+	}
+
+	@Override
+	public List<BookDetails> getAllBooks() {
+		
+		return bookDAO.getAllBooks();
 	}
 
 }
