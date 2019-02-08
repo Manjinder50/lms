@@ -20,8 +20,8 @@ public class BookDetails implements Serializable{
 	}
 
 	@Id
-	@Column(name = "ISBN")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "ISBN",updatable = false, nullable = false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int isbn;
 	
 	@Column(name = "BOOK_TITLE")
