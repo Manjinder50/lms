@@ -2,10 +2,13 @@ package com.packt.lms.dto;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class BookDetailsDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
+	@JsonProperty("book_title")
 	private String bookTitle;
 	
 	private int quantity;

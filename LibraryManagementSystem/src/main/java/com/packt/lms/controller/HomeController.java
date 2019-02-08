@@ -1,5 +1,8 @@
 package com.packt.lms.controller;
 
+import java.text.ParseException;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,9 @@ public class HomeController {
 	@Autowired
 	private BookService bookService;
 	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	
 	@RequestMapping("/")
 	public String welcome(Model model) {
@@ -32,14 +38,21 @@ public class HomeController {
 	}
 	
 	@RequestMapping(path="/addBook",headers = {"Accept=application/json"},method=RequestMethod.POST,produces="applocation/json")
-	public ResponseEntity<BookDetails> createEmployee(@RequestBody BookDetails bookDetails){
+	public ResponseEntity<BookDetails> createEmployee(@RequestBody BookDetailsDTO bookDetailsDTO) throws ParseException{
 		HttpHeaders headers = new HttpHeaders();
-		BookDetailsDTO bookDetailsDTO = new BookDetailsDTO();
-		bookDetails.setBookTitle(bookDetailsDTO.getBookTitle());
-		bookDetails.setNoOfActualCopies(bookDetailsDTO.getQuantity());
-		bookDetails.setNoOfCurrentCopies(bookDetailsDTO.getQuantity());
+		BookDetails bookDetails = convertToEntity(bookDetailsDTO);
 		bookService.saveBooks(bookDetails);
 		return new ResponseEntity<BookDetails>(bookDetails,headers,HttpStatus.CREATED);
 		
 	}
+	
+	private BookDetails convertToEntity(BookDetailsDTO bookDetailsDTO) throws ParseException {
+		
+		BookDetails bookDetails = modelMapper.map(bookDetailsDTO, BookDetails.class);
+		bookDetails.setBookTitle(bookDetailsDTO.getBookTitle());
+		bookDetails.setNoOfActualCopies(bookDetailsDTO.getQuantity());
+		bookDetails.setNoOfCurrentCopies(bookDetailsDTO.getQuantity());
+
+		return bookDetails;
+}
 }

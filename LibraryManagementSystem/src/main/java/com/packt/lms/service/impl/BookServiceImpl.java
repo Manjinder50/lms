@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.packt.lms.dao.BookDAO;
-import com.packt.lms.dto.BookDetailsDTO;
 import com.packt.lms.entity.BookDetails;
 import com.packt.lms.service.BookService;
 

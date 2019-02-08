@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.packt.lms.dao.BookDAO;
+import com.packt.lms.dto.BookDetailsDTO;
 import com.packt.lms.entity.BookDetails;
 
 public class BookDAOImpl implements BookDAO {
@@ -24,7 +25,10 @@ public class BookDAOImpl implements BookDAO {
 	public void saveBooks(BookDetails bookDetails) {
 		
 		Session session = sessionFactory.openSession();
+		session.beginTransaction();
 		session.save(bookDetails);
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 
