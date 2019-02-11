@@ -63,6 +63,5 @@ public class BookDetails implements Serializable{
 
 	public void setNoOfCurrentCopies(int noOfCurrentCopies) {
 		this.noOfCurrentCopies = noOfCurrentCopies;
-	}
-	
+	}	
 }

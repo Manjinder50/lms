@@ -50,6 +50,12 @@ public class BookDAOImpl implements BookDAO {
 		return query.getResultList();
 	}
 
+	@Override
+	public BookDetails getById(int id) {
+
+		return sessionFactory.openSession().get(BookDetails.class, id);
+	}
+
 	
 
 }

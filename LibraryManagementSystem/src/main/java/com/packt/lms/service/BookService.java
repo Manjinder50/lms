@@ -9,5 +9,7 @@ public interface BookService {
 	public void saveBooks(BookDetails bookDetails);
 
 	public List<BookDetails> getAllBooks();
+	
+	public BookDetails getById(int id);
 
 }

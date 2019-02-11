@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,9 +53,17 @@ public class HomeController {
 	public ResponseEntity<List<BookDetails>> getAllBooks(){
 		
 		List<BookDetails> books = bookService.getAllBooks();
-		return ResponseEntity.ok().body(books);
-		
+		return ResponseEntity.ok().body(books);		
 	}
+	
+	@GetMapping("/book/{id}")
+	public ResponseEntity<BookDetails> getById(@PathVariable("id") int id){
+		
+		BookDetails book = bookService.getById(id);
+		
+		return ResponseEntity.ok().body(book);	
+	}
+	
 	private BookDetails convertToEntity(BookDetailsDTO bookDetailsDTO) throws ParseException {
 		
 		BookDetails bookDetails = modelMapper.map(bookDetailsDTO, BookDetails.class);
