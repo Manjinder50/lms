@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,6 +63,15 @@ public class HomeController {
 		BookDetails book = bookService.getById(id);
 		
 		return ResponseEntity.ok().body(book);	
+	}
+	
+	@PutMapping(path = "/book/{id}",headers = {"Accept=application/json"})
+	public ResponseEntity<BookDetails> update(@PathVariable("id") int id,@RequestBody BookDetailsDTO bookDetailsDTO) throws ParseException{
+		
+		HttpHeaders headers = new HttpHeaders();
+		BookDetails bookDetails = convertToEntity(bookDetailsDTO);
+		bookService.update(id, bookDetails);
+		return new ResponseEntity<BookDetails>(bookDetails,headers,HttpStatus.OK);
 	}
 	
 	private BookDetails convertToEntity(BookDetailsDTO bookDetailsDTO) throws ParseException {

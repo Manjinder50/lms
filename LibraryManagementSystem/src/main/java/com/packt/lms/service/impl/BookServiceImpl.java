@@ -13,7 +13,7 @@ import com.packt.lms.service.BookService;
 
 
 @Service("bookService")
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+//@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class BookServiceImpl implements BookService {
 
 	@Autowired
@@ -36,6 +36,13 @@ public class BookServiceImpl implements BookService {
 	public BookDetails getById(int id) {
 
 		return bookDAO.getById(id);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void update(int id, BookDetails book) {
+
+		bookDAO.update(id, book);
 	}
 
 }

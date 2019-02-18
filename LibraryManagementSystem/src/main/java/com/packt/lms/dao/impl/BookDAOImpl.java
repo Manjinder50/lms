@@ -10,10 +10,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.packt.lms.dao.BookDAO;
 import com.packt.lms.entity.BookDetails;
 
+@Repository
 public class BookDAOImpl implements BookDAO {
 
 	@Autowired
@@ -54,6 +56,18 @@ public class BookDAOImpl implements BookDAO {
 	public BookDetails getById(int id) {
 
 		return sessionFactory.openSession().get(BookDetails.class, id);
+	}
+
+	@Override
+	public void update(int id, BookDetails book) {
+
+		Session session = sessionFactory.openSession();
+		BookDetails bookNew = session.byId(BookDetails.class).load(id);
+		bookNew.setBookTitle(book.getBookTitle());
+		bookNew.setNoOfActualCopies(book.getNoOfActualCopies());
+		bookNew.setNoOfCurrentCopies(book.getNoOfCurrentCopies());
+		session.flush();
+//		session.close();
 	}
 
 	

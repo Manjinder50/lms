@@ -11,5 +11,8 @@ public interface BookDAO {
 		public List<BookDetails> getAllBooks();
 		
 		public BookDetails getById(int id);
+		
+		public void update(int id, BookDetails book);
+
 
 }
