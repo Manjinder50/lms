@@ -65,11 +65,12 @@ public class HomeController {
 		return ResponseEntity.ok().body(book);	
 	}
 	
-	@PutMapping(path = "/book/{id}",headers = {"Accept=application/json"})
+	@PutMapping(path = "/book/{id}",headers = {"Accept=application/json"},produces="applocation/json")
 	public ResponseEntity<BookDetails> update(@PathVariable("id") int id,@RequestBody BookDetailsDTO bookDetailsDTO) throws ParseException{
 		
 		HttpHeaders headers = new HttpHeaders();
 		BookDetails bookDetails = convertToEntity(bookDetailsDTO);
+		bookDetails.setIsbn(id);
 		bookService.update(id, bookDetails);
 		return new ResponseEntity<BookDetails>(bookDetails,headers,HttpStatus.OK);
 	}
