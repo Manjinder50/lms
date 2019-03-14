@@ -14,5 +14,6 @@ public interface BookDAO {
 		
 		public void update(int id, BookDetails book);
 
+		public void delete(int id);
 
 }

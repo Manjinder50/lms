@@ -2,33 +2,22 @@ package com.packt.lms.dao.impl;
 
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.packt.lms.dao.BookDAO;
 import com.packt.lms.entity.BookDetails;
 
 @Repository
-@Transactional
 public class BookDAOImpl implements BookDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	@Autowired
-	private HibernateTransactionManager transactionManager;
+	/*@Autowired
+	private HibernateTransactionManager transactionManager;*/
 
 	public BookDAOImpl() {
 	}
@@ -38,7 +27,7 @@ public class BookDAOImpl implements BookDAO {
 		this.sessionFactory = sessionFactory;
 	}
 
-	@Override
+	/*@Override
 	public void saveBooks(BookDetails bookDetails) {
 
 		Session session = sessionFactory.openSession();
@@ -66,22 +55,47 @@ public class BookDAOImpl implements BookDAO {
 
 		return sessionFactory.openSession().get(BookDetails.class, id);
 	}
+*/	
 
 	@Override
 	public void update(int id, BookDetails book) {
 
-		DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
-		TransactionStatus transaction = transactionManager.getTransaction(definition);
-		
-		Session session = sessionFactory.openSession();
-		BookDetails bookNew = session.byId(BookDetails.class).load(id);
+		BookDetails bookNew = getById(book.getIsbn());
 		 
 		bookNew.setBookTitle(book.getBookTitle());
 		bookNew.setNoOfActualCopies(book.getNoOfActualCopies());
 		bookNew.setNoOfCurrentCopies(book.getNoOfCurrentCopies());
-		transaction.flush();	
-		session.flush();
-		session.close();
+		getCurrentSession().update(bookNew);			
 	}
 
+	private Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
+    }
+
+	@Override
+	public void saveBooks(BookDetails bookDetails) {
+		
+		getCurrentSession().save(bookDetails);
+	}
+
+	@Override
+	public List<BookDetails> getAllBooks() {
+		List<BookDetails> books = getCurrentSession().createQuery("from BookDetails").getResultList();
+		return books;
+	}
+
+	@Override
+	public BookDetails getById(int id) {
+
+		return getCurrentSession().get(BookDetails.class, id);
+	}
+
+	@Override
+	public void delete(int id) {
+
+		BookDetails book = getCurrentSession().load(BookDetails.class, new Integer(id));
+		if(null !=book) {
+			getCurrentSession().delete(book);
+		}
+	}
 }

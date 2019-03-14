@@ -9,10 +9,11 @@ public interface BookService {
 	public void saveBooks(BookDetails bookDetails);
 
 	public List<BookDetails> getAllBooks();
-	
+
 	public BookDetails getById(int id);
-	
+
 	public void update(int id, BookDetails book);
 
+	public void delete(int id);
 
 }
